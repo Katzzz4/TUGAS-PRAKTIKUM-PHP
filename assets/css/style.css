@@ -1046,12 +1046,12 @@ position: absolute;
 top: 100%;
 left: 0;
 background-color: white;
-border: 1px solid #ddd;
 width: 350px;
 box-shadow: 0px 2px 8px rgba(0,0,0,0.2);
 padding: 16px;
 z-index: 1000;
 color: black;
+outline: none;
 }
 
 .account-dropdown:hover .dropdown-content {
@@ -1525,7 +1525,7 @@ margin-top: 15px;
         }
 
         .help-card-btn {
-            background: #ff9900;
+            background: linear-gradient(135deg, #232f3e 0%, #37475a 100%);
             color: white;
             border: none;
             padding: 12px 25px;

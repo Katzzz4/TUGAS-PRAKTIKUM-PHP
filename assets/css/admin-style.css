@@ -11,6 +11,7 @@
   position: relative; /* Tambahkan position relative */
 }
 
+
 /* Posisikan tombol ke kanan dengan position absolute */
 .top-action .btn-primary {
   position: absolute;
@@ -719,7 +720,7 @@ td {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
-  background: #28a745;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
   border-radius: 6px;
@@ -730,7 +731,7 @@ td {
 }
 
 .login-box button:hover {
-  background: #218838;
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 /* Tambah Admin Form Styling */
@@ -757,7 +758,7 @@ td {
 .admin-form button {
   padding: 10px;
   font-weight: bold;
-  background: #28a745;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
   border-radius: 6px;
@@ -1156,4 +1157,203 @@ h3 {
   content: "📷";
   font-size: 20px;
   opacity: 0.5;
+}
+
+/* Additional styles for order management */
+.col-order-id { width: 12%; }
+.col-customer { width: 18%; }
+.col-total { width: 12%; }
+.col-status { width: 12%; }
+.col-payment { width: 10%; }
+.col-date { width: 10%; }
+
+.order-id {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: #4f46e5;
+}
+
+.customer-info .customer-name {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.customer-info .customer-email {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.order-total {
+  font-weight: 600;
+  color: #059669;
+}
+
+.order-date {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+/* Status badges */
+.status-badge, .payment-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.status-processing {
+  background: linear-gradient(135deg, #fef3c7, #fbbf24);
+  color: #92400e;
+}
+
+.status-shipped {
+  background: linear-gradient(135deg, #dbeafe, #3b82f6);
+  color: #1e40af;
+}
+
+.status-delivered {
+  background: linear-gradient(135deg, #d1fae5, #10b981);
+  color: #065f46;
+}
+
+.status-cancelled {
+  background: linear-gradient(135deg, #fee2e2, #ef4444);
+  color: #991b1b;
+}
+
+.status-returned {
+  background: linear-gradient(135deg, #f3e8ff, #8b5cf6);
+  color: #5b21b6;
+}
+
+.payment-pending {
+  background: linear-gradient(135deg, #fef3c7, #f59e0b);
+  color: #92400e;
+}
+
+.payment-paid {
+  background: linear-gradient(135deg, #d1fae5, #10b981);
+  color: #065f46;
+}
+
+.payment-failed {
+  background: linear-gradient(135deg, #fee2e2, #ef4444);
+  color: #991b1b;
+}
+
+.payment-refunded {
+  background: linear-gradient(135deg, #e0e7ff, #6366f1);
+  color: #3730a3;
+}
+
+/* Filter select */
+.filter-select {
+  padding: 8px 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Action buttons styling */
+.btn-info {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  color: white !important;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2px;
+  transition: all 0.3s ease;
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white !important;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2px;
+  transition: all 0.3s ease;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white !important;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2px;
+  transition: all 0.3s ease;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-message i {
+  font-size: 48px;
+  color: #d1d5db;
+  margin-bottom: 16px;
+}
+
+.empty-message h4 {
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.empty-message p {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* Active menu link */
+.menu-link.active {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+  border-left: 3px solid #6366f1;
+}
+
+.menu-link.active .menu-item {
+  color: #6366f1;
+}
+
+/* Menu divider */
+.menu-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  margin: 8px 0;
+  border: none;
+}
+
+/* Icon styling konsisten */
+.dropdown-header .icon-main {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

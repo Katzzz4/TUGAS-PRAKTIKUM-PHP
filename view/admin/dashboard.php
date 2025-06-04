@@ -138,6 +138,107 @@ function getStatistic($table, $condition = '') {
     </div>
   </div>
 
+  <!-- Menu Pesanan/Orderan -->
+  <div class="dropdown">
+    <div class="dropdown-header">
+      <i class="fas fa-shopping-cart icon-main"></i>
+      <span>Manajemen Pesanan</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class="dropdown-content scrollable-menu">
+      <!-- Semua Pesanan -->
+      <a href="daftar-pesanan.php?status=semua" class="menu-link">
+        <div class="menu-item">
+          <i class="fas fa-list-alt"></i>
+          <div class="menu-text">
+            <div>Semua Pesanan</div>
+            <small><?= getStatistic('orders') ?> pesanan</small>
+          </div>
+        </div>
+      </a>
+
+      <!-- Pesanan Baru (Processing) -->
+      <a href="daftar-pesanan.php?status=processing" class="menu-link">
+        <div class="menu-item">
+          <i class="fas fa-clock"></i>
+          <div class="menu-text">
+            <div>Pesanan Baru</div>
+            <small><?= getStatistic('orders', "WHERE status = 'processing'") ?> pesanan</small>
+          </div>
+        </div>
+      </a>
+
+      <!-- Sedang Dikirim (Shipped) -->
+      <a href="daftar-pesanan.php?status=shipped" class="menu-link">
+        <div class="menu-item">
+          <i class="fas fa-truck"></i>
+          <div class="menu-text">
+            <div>Sedang Dikirim</div>
+            <small><?= getStatistic('orders', "WHERE status = 'shipped'") ?> pesanan</small>
+          </div>
+        </div>
+      </a>
+
+      <!-- Pesanan Selesai (Delivered) -->
+      <a href="daftar-pesanan.php?status=delivered" class="menu-link">
+        <div class="menu-item">
+          <i class="fas fa-check-circle"></i>
+          <div class="menu-text">
+            <div>Pesanan Selesai</div>
+            <small><?= getStatistic('orders', "WHERE status = 'delivered'") ?> pesanan</small>
+          </div>
+        </div>
+      </a>
+
+      <!-- Pesanan Dibatalkan (Cancelled) -->
+      <a href="daftar-pesanan.php?status=cancelled" class="menu-link">
+        <div class="menu-item">
+          <i class="fas fa-times-circle"></i>
+          <div class="menu-text">
+            <div>Pesanan Dibatalkan</div>
+            <small><?= getStatistic('orders', "WHERE status = 'cancelled'") ?> pesanan</small>
+          </div>
+        </div>
+      </a>
+
+      <!-- Pesanan Dikembalikan (Returned) -->
+      <a href="daftar-pesanan.php?status=returned" class="menu-link">
+        <div class="menu-item">
+          <i class="fas fa-undo"></i>
+          <div class="menu-text">
+            <div>Pesanan Dikembalikan</div>
+            <small><?= getStatistic('orders', "WHERE status = 'returned'") ?> pesanan</small>
+          </div>
+        </div>
+      </a>
+
+      <!-- Divider -->
+      <div class="menu-divider"></div>
+
+      <!-- Tracking Pesanan -->
+      <a href="tracking-pesanan.php" class="menu-link">
+        <div class="menu-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="menu-text">
+            <div>Tracking Pesanan</div>
+            <small><?= getStatistic('order_tracking') ?> tracking</small>
+          </div>
+        </div>
+      </a>
+
+      <!-- Pengembalian/Return -->
+      <a href="daftar-return.php" class="menu-link">
+        <div class="menu-item">
+          <i class="fas fa-exchange-alt"></i>
+          <div class="menu-text">
+            <div>Pengembalian Barang</div>
+            <small><?= getStatistic('returns') ?> return</small>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
   <!-- Menu Pengguna -->
   <div class="dropdown">
       <div class="dropdown-header">
@@ -244,6 +345,65 @@ function getStatistic($table, $condition = '') {
       </table>
     </div>
   </div>
+
+  <style>
+    /* Additional CSS untuk menu divider */
+    .menu-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      margin: 8px 0;
+      border: none;
+    }
+
+    /* Status badges untuk orderan (jika diperlukan) */
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .status-processing {
+      background: linear-gradient(135deg, #fef3c7, #fbbf24);
+      color: #92400e;
+    }
+
+    .status-shipped {
+      background: linear-gradient(135deg, #dbeafe, #3b82f6);
+      color: #1e40af;
+    }
+
+    .status-delivered {
+      background: linear-gradient(135deg, #d1fae5, #10b981);
+      color: #065f46;
+    }
+
+    .status-cancelled {
+      background: linear-gradient(135deg, #fee2e2, #ef4444);
+      color: #991b1b;
+    }
+
+    .status-returned {
+      background: linear-gradient(135deg, #f3e8ff, #8b5cf6);
+      color: #5b21b6;
+    }
+
+    /* Hover effect untuk menu item dengan konsistensi warna */
+    .menu-item:hover {
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      transform: translateX(2px);
+    }
+
+    /* Icon styling konsisten */
+    .dropdown-header .icon-main {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
 
   <script>
     document.querySelectorAll('.dropdown-header').forEach(header => {

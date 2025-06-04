@@ -2,6 +2,9 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+$keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
+
 ?>
 
 <!DOCTYPE html>
@@ -13,19 +16,12 @@ if (session_status() === PHP_SESSION_NONE) {
     <title>Amazon.com</title>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="../../assets/css/style.css" />
-      <style>
-    a {
-      text-decoration: none;
-      color: white;
-    }
-    
-  </style>
   </head>
   <body>
-    <header>
+
+     <header>
        <div class="navbar">
         <div class="nav-logo border">
           <a href="index.php">
@@ -41,26 +37,25 @@ if (session_status() === PHP_SESSION_NONE) {
       </div>
 
      <form action="search.php" method="GET" class="nav-search">
-       <div class="nav-search">
-          <select class="search-select" id="categorySelect" onchange="resizeSelect(this)">
-            <option>All</option>
-            <option>Rumah</option>
-            <option>Mainan</option>
-            <option>Kosmetik</option>
-            <option>Tas</option>
-            <option>Fashion</option>
-            <option>Digital</option>
-            <option>Elektronik</option>
-            <option>Alat Tulis</option>
-          </select>
-          <input type="text" name="keyword" class="search-input" placeholder="Search product..." />
-          <button type="submit" class="search-icon">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-          <!-- Elemen tersembunyi untuk mengukur lebar teks -->
-          <span id="widthHelper" style="visibility:hidden; position:absolute; white-space:nowrap; font-size:14px;"></span>
-        </div>
-      </form>
+                <div class="nav-search">
+                    <select class="search-select" name="category" id="categorySelect" onchange="resizeSelect(this)">
+                        <option value="All" <?= "kategori.php?kategori=Semua" ? 'selected' : '' ?>>All</option>
+                        <option value="Rumah" <?= "kategori.php?kategori=Rumah" ? 'selected' : '' ?>>Rumah</option>
+                        <option value="Mainan" <?= "kategori.php?kategori=Mainan" ? 'selected' : '' ?>>Mainan</option>
+                        <option value="Kosmetik" <?= "kategori.php?kategori=Kosmetik" ? 'selected' : '' ?>>Kosmetik</option>
+                        <option value="Tas" <?= "kategori.php?kategori=Tas" ? 'selected' : '' ?>>Tas</option>
+                        <option value="Fashion" <?= "kategori.php?kategori=Fashion" ? 'selected' : '' ?>>Fashion</option>
+                        <option value="Digital" <?= "kategori.php?kategori=Digital" ? 'selected' : '' ?>>Digital</option>
+                        <option value="Elektronik" <?= "kategori.php?kategori=Elektronik" ? 'selected' : '' ?>>Elektronik</option>
+                        <option value="Alat Tulis" <?= "kategori.php?kategori=alat_tulis" ? 'selected' : '' ?>>Alat Tulis</option>
+                    </select>
+                    <input type="text" name="keyword" class="search-input" placeholder="  Search product..." value="<?= htmlspecialchars($keyword) ?>"/>
+                    <button type="submit" class="search-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <span id="widthHelper" style="visibility:hidden; position:absolute; white-space:nowrap; font-size:14px;"></span>
+                </div>
+            </form>
         
         <div class="map-icon border">
           <i class="fa-solid fa-earth-americas"></i>
@@ -74,8 +69,7 @@ if (session_status() === PHP_SESSION_NONE) {
           </div>
         </div>
 
-  <div class="account-dropdown border">
-    <div class="account-dropdown border">
+  <div class="account-dropdown border"> 
         <button class="account-btn">
         <?php if (isset($_SESSION['nama'])): ?>
              Hello, <?= htmlspecialchars($_SESSION['nama']) ?><br><strong>Account & Lists</strong>
@@ -84,16 +78,9 @@ if (session_status() === PHP_SESSION_NONE) {
         <?php endif; ?>
     </button>
     <div class="dropdown-content">
-        <?php if (isset($_SESSION['nama'])): ?>
-            <a href="logout.php" class="sign-in-btn">Logout</a>
-        <?php else: ?>
-            <a href="login.php" class="sign-in-btn">Sign in</a>
-         <?php endif; ?>
-     </div>
-    </div>
-
-          <div class="dropdown-content">
-           <button class="sign-in-btn" onclick="window.location.href='login.php'">Sign in</button>
+        <?php if (!isset($_SESSION['nama'])): ?>
+            <button class="sign-in-btn" onclick="window.location.href='login.php'">Sign in</button>
+        <?php endif; ?>
             <div class="dropdown-sections">
               <div>
                 <h4>Your Lists</h4>
@@ -106,12 +93,14 @@ if (session_status() === PHP_SESSION_NONE) {
                 <h4>Your Account</h4>
                 <ul>
                   <li><a href="account.php">Account</a></li>
-                  <li><a href="../../controllers/pelanggan/logout.php" style="  color:rgb(255, 1, 1);">Logout</a></li>
+                  <?php if (isset($_SESSION['nama'])): ?>
+                  <li><a href="../../controllers/pelanggan/logout.php" style="color:rgb(255, 1, 1);">Logout</a></li>
+                  <?php endif; ?>
                 </ul>
               </div>
             </div>
-          </div>
-        </div>
+     </div>
+  </div>
 
         <a href="returns-orders.php">
         <div class="nav-return border">
@@ -142,11 +131,11 @@ if (session_status() === PHP_SESSION_NONE) {
       </div>
     </header>
 
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <?php if (isset($_SESSION['nama'])): ?>
+             <?php if (isset($_SESSION['nama'])): ?>
              Hello, <?= htmlspecialchars($_SESSION['nama']) ?>
              <?php endif; ?>
             <button class="sidebar-close" id="sidebarClose">
@@ -155,51 +144,18 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
         
         <div class="sidebar-content">
-            <!-- Digital Content & Devices -->
-            <div class="sidebar-section">
-                <h4>Digital Content & Devices</h4>
-                <ul class="sidebar-menu">
-                    <li class="expandable">
-                        <a href="#">Amazon Music</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Free Streaming</a></li>
-                            <li><a href="#">Prime Music</a></li>
-                            <li><a href="#">Amazon Music Unlimited</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Kindle E-readers & Books</a></li>
-                    <li><a href="#">Amazon Appstore</a></li>
-                </ul>
-            </div>
-
             <!-- Shop by Department -->
             <div class="sidebar-section">
                 <h4>Shop by Department</h4>
                 <ul class="sidebar-menu">
-                    <li class="expandable">
-                        <a href="#">Electronics</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Smartphones</a></li>
-                            <li><a href="#">Laptops</a></li>
-                            <li><a href="#">Cameras</a></li>
-                            <li><a href="#">Headphones</a></li>
-                        </ul>
-                    </li>
-                    <li class="expandable">
-                        <a href="#">Computers</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Laptops</a></li>
-                            <li><a href="#">Desktops</a></li>
-                            <li><a href="#">Tablets</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Smart Home</a></li>
-                    <li><a href="#">Arts & Crafts</a></li>
-                    <li><a href="#">Automotive</a></li>
-                    <li><a href="#">Baby</a></li>
-                    <li><a href="#">Beauty and Personal Care</a></li>
-                    <li><a href="#">Books</a></li>
-                    <li><a href="#">Fashion</a></li>
+                    <li><a href="kategori.php?kategori=rumah" class= "category-name" >Rumah</a></li>
+                    <li><a href="kategori.php?kategori=mainan" class= "category-name" >Mainan</a></li>
+                    <li><a href="kategori.php?kategori=kosmetik" class= "category-name" >Kosmetik</a></li>
+                    <li><a href="kategori.php?kategori=tas" class= "category-name" >Tas</a></li>
+                    <li><a href="kategori.php?kategori=fashion" class= "category-name" >Fashion</a></li>
+                    <li><a href="kategori.php?kategori=digital" class= "category-name" >Digital</a></li>
+                    <li><a href="kategori.php?kategori=elektronik" class= "category-name" >Elektronik</a></li>
+                    <li><a href="kategori.php?kategori=alat_tulis" class= "category-name" >Alat Tulis</a></li>
                 </ul>
             </div>
 
@@ -207,10 +163,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <div class="sidebar-section">
                 <h4>Programs & Features</h4>
                 <ul class="sidebar-menu">
-                    <li><a href="#">Gift Cards</a></li>
-                    <li><a href="#">Amazon Live</a></li>
-                    <li><a href="#">International Shopping</a></li>
-                    <li><a href="#">Amazon Second Chance</a></li>
+                    <li><a href="gift-card.php">Gift Cards</a></li>
                 </ul>
             </div>
 
@@ -218,9 +171,9 @@ if (session_status() === PHP_SESSION_NONE) {
             <div class="sidebar-section">
                 <h4>Help & Settings</h4>
                 <ul class="sidebar-menu">
-                    <li><a href="#">Your Account</a></li>
-                    <li><a href="#">Customer Service</a></li>
-                    <li><a href="#">Sign in</a></li>
+                    <li><a href="account.php">Your Account</a></li>
+                    <li><a href="customer-service.php">Customer Service</a></li>
+                    <li><a href="register.php">Sign in</a></li>
                 </ul>
             </div>
         </div>

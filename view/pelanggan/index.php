@@ -18,6 +18,7 @@ $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
     <link rel="stylesheet" href="../../assets/css/style.css" />
   </head>
   <body>
+    
     <header>
        <div class="navbar">
         <div class="nav-logo border">
@@ -36,8 +37,8 @@ $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
      <form action="search.php" method="GET" class="nav-search">
                 <div class="nav-search">
                     <select class="search-select" name="category" id="categorySelect" onchange="resizeSelect(this)">
-                        <option value="Rumah" <?= "kategori.php?kategori=semua" ? 'selected' : '' ?>>ALL</option>
-                        <option value="Rumah" <?= "kategori.php?kategori=rumah" ? 'selected' : '' ?>>Rumah</option>
+                        <option value="All" <?= "kategori.php?kategori=Semua" ? 'selected' : '' ?>>All</option>
+                        <option value="Rumah" <?= "kategori.php?kategori=Rumah" ? 'selected' : '' ?>>Rumah</option>
                         <option value="Mainan" <?= "kategori.php?kategori=Mainan" ? 'selected' : '' ?>>Mainan</option>
                         <option value="Kosmetik" <?= "kategori.php?kategori=Kosmetik" ? 'selected' : '' ?>>Kosmetik</option>
                         <option value="Tas" <?= "kategori.php?kategori=Tas" ? 'selected' : '' ?>>Tas</option>
@@ -68,7 +69,6 @@ $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
 
   <div class="account-dropdown border">
           <?php session_start(); ?>
-    <div class="account-dropdown border">
         <button class="account-btn">
         <?php if (isset($_SESSION['nama'])): ?>
              Hello, <?= htmlspecialchars($_SESSION['nama']) ?><br><strong>Account & Lists</strong>
@@ -77,16 +77,9 @@ $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
         <?php endif; ?>
     </button>
     <div class="dropdown-content">
-        <?php if (isset($_SESSION['nama'])): ?>
-            <a href="logout.php" class="sign-in-btn">Logout</a>
-        <?php else: ?>
-            <a href="login.php" class="sign-in-btn">Sign in</a>
-         <?php endif; ?>
-     </div>
-    </div>
-
-          <div class="dropdown-content">
-           <button class="sign-in-btn" onclick="window.location.href='login.php'">Sign in</button>
+        <?php if (!isset($_SESSION['nama'])): ?>
+            <button class="sign-in-btn" onclick="window.location.href='login.php'">Sign in</button>
+        <?php endif; ?>
             <div class="dropdown-sections">
               <div>
                 <h4>Your Lists</h4>
@@ -99,12 +92,14 @@ $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
                 <h4>Your Account</h4>
                 <ul>
                   <li><a href="account.php">Account</a></li>
-                  <li><a href="../../controllers/pelanggan/logout.php" style="  color:rgb(255, 1, 1);">Logout</a></li>
+                  <?php if (isset($_SESSION['nama'])): ?>
+                  <li><a href="../../controllers/pelanggan/logout.php" style="color:rgb(255, 1, 1);">Logout</a></li>
+                  <?php endif; ?>
                 </ul>
               </div>
             </div>
-          </div>
-        </div>
+     </div>
+  </div>
 
         <a href="returns-orders.php">
         <div class="nav-return border">
@@ -148,51 +143,18 @@ $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
         </div>
         
         <div class="sidebar-content">
-            <!-- Digital Content & Devices -->
-            <div class="sidebar-section">
-                <h4>Digital Content & Devices</h4>
-                <ul class="sidebar-menu">
-                    <li class="expandable">
-                        <a href="#">Amazon Music</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Free Streaming</a></li>
-                            <li><a href="#">Prime Music</a></li>
-                            <li><a href="#">Amazon Music Unlimited</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Kindle E-readers & Books</a></li>
-                    <li><a href="#">Amazon Appstore</a></li>
-                </ul>
-            </div>
-
             <!-- Shop by Department -->
             <div class="sidebar-section">
                 <h4>Shop by Department</h4>
                 <ul class="sidebar-menu">
-                    <li class="expandable">
-                        <a href="#">Electronics</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Smartphones</a></li>
-                            <li><a href="#">Laptops</a></li>
-                            <li><a href="#">Cameras</a></li>
-                            <li><a href="#">Headphones</a></li>
-                        </ul>
-                    </li>
-                    <li class="expandable">
-                        <a href="#">Computers</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Laptops</a></li>
-                            <li><a href="#">Desktops</a></li>
-                            <li><a href="#">Tablets</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Smart Home</a></li>
-                    <li><a href="#">Arts & Crafts</a></li>
-                    <li><a href="#">Automotive</a></li>
-                    <li><a href="#">Baby</a></li>
-                    <li><a href="#">Beauty and Personal Care</a></li>
-                    <li><a href="#">Books</a></li>
-                    <li><a href="#">Fashion</a></li>
+                    <li><a href="kategori.php?kategori=rumah" class= "category-name" >Rumah</a></li>
+                    <li><a href="kategori.php?kategori=mainan" class= "category-name" >Mainan</a></li>
+                    <li><a href="kategori.php?kategori=kosmetik" class= "category-name" >Kosmetik</a></li>
+                    <li><a href="kategori.php?kategori=tas" class= "category-name" >Tas</a></li>
+                    <li><a href="kategori.php?kategori=fashion" class= "category-name" >Fashion</a></li>
+                    <li><a href="kategori.php?kategori=digital" class= "category-name" >Digital</a></li>
+                    <li><a href="kategori.php?kategori=elektronik" class= "category-name" >Elektronik</a></li>
+                    <li><a href="kategori.php?kategori=alat_tulis" class= "category-name" >Alat Tulis</a></li>
                 </ul>
             </div>
 
@@ -200,10 +162,7 @@ $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
             <div class="sidebar-section">
                 <h4>Programs & Features</h4>
                 <ul class="sidebar-menu">
-                    <li><a href="#">Gift Cards</a></li>
-                    <li><a href="#">Amazon Live</a></li>
-                    <li><a href="#">International Shopping</a></li>
-                    <li><a href="#">Amazon Second Chance</a></li>
+                    <li><a href="gift-card.php">Gift Cards</a></li>
                 </ul>
             </div>
 
@@ -211,9 +170,9 @@ $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
             <div class="sidebar-section">
                 <h4>Help & Settings</h4>
                 <ul class="sidebar-menu">
-                    <li><a href="#">Your Account</a></li>
-                    <li><a href="#">Customer Service</a></li>
-                    <li><a href="#">Sign in</a></li>
+                    <li><a href="account.php">Your Account</a></li>
+                    <li><a href="customer-service.php">Customer Service</a></li>
+                    <li><a href="register.php">Sign in</a></li>
                 </ul>
             </div>
         </div>

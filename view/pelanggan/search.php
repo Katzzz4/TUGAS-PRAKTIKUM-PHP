@@ -53,99 +53,7 @@ $total_results = mysqli_num_rows($search_results);
 </head>
 <body>
     <!-- Header Navigation (sama seperti index.php) -->
-    <header>
-        <div class="navbar">
-            <div class="nav-logo border">
-                <a href="index.php">
-                    <div class="logo"></div>
-                </a>
-            </div>
-            <div class="nav-address">
-                <i class="fa-solid fa-location-dot"></i>
-                <div class="address-text">
-                    <span class="add-first">Deliver to</span>
-                    <span class="add-second">Indonesia</span>
-                </div>
-            </div>
-
-            <form action="search.php" method="GET" class="nav-search">
-                <div class="nav-search">
-                    <select class="search-select" name="category" id="categorySelect" onchange="resizeSelect(this)">
-                        <option value="All" <?= $category === 'All' ? 'selected' : '' ?>>All</option>
-                        <option value="Rumah" <?= $category === 'Rumah' ? 'selected' : '' ?>>Rumah</option>
-                        <option value="Mainan" <?= $category === 'Mainan' ? 'selected' : '' ?>>Mainan</option>
-                        <option value="Kosmetik" <?= $category === 'Kosmetik' ? 'selected' : '' ?>>Kosmetik</option>
-                        <option value="Tas" <?= $category === 'Tas' ? 'selected' : '' ?>>Tas</option>
-                        <option value="Fashion" <?= $category === 'Fashion' ? 'selected' : '' ?>>Fashion</option>
-                        <option value="Digital" <?= $category === 'Digital' ? 'selected' : '' ?>>Digital</option>
-                        <option value="Elektronik" <?= $category === 'Elektronik' ? 'selected' : '' ?>>Elektronik</option>
-                        <option value="Alat Tulis" <?= $category === 'Alat Tulis' ? 'selected' : '' ?>>Alat Tulis</option>
-                    </select>
-                    <input type="text" name="keyword" class="search-input" placeholder="Search product..." value="<?= htmlspecialchars($keyword) ?>"/>
-                    <button type="submit" class="search-icon">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                    <span id="widthHelper" style="visibility:hidden; position:absolute; white-space:nowrap; font-size:14px;"></span>
-                </div>
-            </form>
-            
-            <!-- Rest of navigation items -->
-            <div class="map-icon border">
-                <i class="fa-solid fa-earth-americas"></i>
-                <div>
-                    <p><b><pre> EN</pre></b></p>
-                    <div class="sort-down">
-                        <i class="fa-solid fa-sort-down"></i>
-                    </div>
-                </div>
-            </div>
-
-            <?php session_start(); ?>
-            <div class="account-dropdown border">
-                <button class="account-btn">
-                    <?php if (isset($_SESSION['nama'])): ?>
-                        Hello, <?= htmlspecialchars($_SESSION['nama']) ?><br><strong>Account & Lists</strong>
-                    <?php else: ?>
-                        Hello, sign in<br><strong>Account & Lists</strong>
-                    <?php endif; ?>
-                </button>
-                <div class="dropdown-content">
-                    <?php if (isset($_SESSION['nama'])): ?>
-                        <a href="logout.php" class="sign-in-btn">Logout</a>
-                    <?php else: ?>
-                        <a href="login.php" class="sign-in-btn">Sign in</a>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <a href="returns-orders.php">
-                <div class="nav-return border">
-                    <p><span>Returns</span></p>
-                    <p class="nav-second">& Orders</p>
-                </div>
-            </a>
-
-            <a href="cart.php">
-                <div class="nav-cart border">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Cart
-                </div>
-            </a>
-        </div>
-
-        <div class="panel">
-            <div class="panel-all">
-                <i class="fa-solid fa-bars"></i>
-                ALL
-            </div>
-            <div class="panel-options">
-                <a href="todays-deal.php"><p>Today's Deals</p></a>
-                <a href="customer-service.php"><p>Customer Service</p></a>
-                <a href="registry.php"><p>Registry</p></a>
-                <a href="gift-card.php"><p>Gift Cards</p></a>
-            </div>
-        </div>
-    </header>
+    <?php include 'navbar.php'; ?>
 
     <!-- Search Results Content -->
     <div class="search-container">
@@ -188,7 +96,7 @@ $total_results = mysqli_num_rows($search_results);
                                     <img src="../../assets/images-produk/<?= !empty($product['gambar']) ? $product['gambar'] : 'default.png' ?>" 
                                          alt="<?= htmlspecialchars($product['nama_produk']) ?>">
                                     <?php if ($product['unggulan'] == 1): ?>
-                                        <span class="featured-badge">⭐ Featured</span>
+                                        <span class="featured-badge">⭐ Unggulan</span>
                                     <?php endif; ?>
                                 </div>
                                 
@@ -263,6 +171,8 @@ $total_results = mysqli_num_rows($search_results);
             <?php endif; ?>
         </div>
     </div>
+
+    <?php include 'footer.php'; ?>
 
     <script>
         function resizeSelect(select) {
