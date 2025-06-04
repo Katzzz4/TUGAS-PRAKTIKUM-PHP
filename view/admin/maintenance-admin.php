@@ -10,7 +10,7 @@
   <div class="container">
     <h2 style="text-align: center; margin-bottom: 0px;">🧑‍💼 Tambah Admin Baru</h2>
 
-    <form class="admin-form" action="proses-tambah-admin.php" method="POST">
+    <form class="admin-form" action="../../controllers/admin/proses-tambah-admin.php" method="POST">
       <input type="text" name="username" placeholder="Username" required>
       <input type="text" name="nama_admin" placeholder="Nama Admin" required>
       <input type="password" name="password" placeholder="Password" required>

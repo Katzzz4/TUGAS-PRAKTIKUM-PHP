@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../../config/Connection.php';
-
+ 
 $id = $_GET['id'];
 // Ambil data produk untuk hapus file gambar
 $data = mysqli_query($conn, "SELECT gambar FROM produk WHERE id_produk = '$id'");
@@ -13,7 +13,7 @@ $query = mysqli_query($conn, "DELETE FROM produk WHERE id_produk = '$id'");
 
 if ($query) {
     // Hapus gambar dari folder jika ada
-    $path = '../../assets/images/' . $gambar;
+    $path = '../../assets/images-produk/' . $gambar;
     if (file_exists($path)) {
         unlink($path);
     }

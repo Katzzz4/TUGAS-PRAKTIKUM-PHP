@@ -12,34 +12,6 @@ $query = mysqli_query($conn, "SELECT * FROM produk WHERE kategori = '$kategori'"
   <title>Kategori: <?= ucfirst($kategori) ?></title>
   <link rel="stylesheet" href="../../assets/css/style.css">
   <style>
-    .navbar {
-      background: #fff;
-      background-color: #0f1111;
-      padding: 10px 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .navbar .logo {
-      font-size: 20px;
-      font-weight: bold;
-      color: #d10024;
-    }
-    .navbar .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    .navbar .nav-right input[type="text"] {
-      padding: 6px 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    .navbar .icon {
-      font-size: 18px;
-      cursor: pointer;
-    }
     .category-box {
       background: linear-gradient(135deg, #fff0f0, #ffeaea);
       border-left: 6px solid #d10024;
@@ -80,14 +52,7 @@ $query = mysqli_query($conn, "SELECT * FROM produk WHERE kategori = '$kategori'"
   </style>
 </head>
 <body>
-  <div class="navbar">
-    <div class="logo"></div>
-    <div class="nav-right">
-      <input type="text" placeholder="Cari produk...">
-      <span class="icon">🔍</span>
-      <span class="icon">🛒</span>
-    </div>
-  </div>
+    <?php include 'navbar.php'; ?>
 
   <div class="container">
     <div class="category-box">
@@ -98,18 +63,29 @@ $query = mysqli_query($conn, "SELECT * FROM produk WHERE kategori = '$kategori'"
     <div class="products">
       <?php while ($row = mysqli_fetch_assoc($query)) : ?>
         <div class="product">
+          <a href="detail-produk.php?id=<?= $row['id_produk'] ?>">
           <div class="product-img">
-            <img src="../../assets/images/<?= !empty($row['gambar']) ? $row['gambar'] : 'default.png' ?>" alt="<?= $row['nama_produk'] ?>">
+            <img src="../../assets/images-produk/<?= !empty($row['gambar']) ? $row['gambar'] : 'default.png' ?>" alt="<?= $row['nama_produk'] ?>">
           </div>
-          <div class="product-info">
-            <div class="product-name"><?= $row['nama_produk'] ?></div>
-            <div class="product-price">Rp <?= number_format($row['harga'], 0, ',', '.') ?></div>
+          </a>
+           <div class="product-info flex-layout">
+            <div class="product-details">
+              <div class="product-name"><?= $row['nama_produk'] ?></div>
+              <div class="product-price">Rp <?= number_format($row['harga'], 0, ',', '.') ?></div>
+            </div>
+            <div class="product-actions inline">
+              <button class="btn-buy pre-order">+ Keranjang</button>
+              <button class="btn-buy buy-now">Beli</button>
+            </div>
           </div>
-        </div>
+      </div>
       <?php endwhile; ?>
     </div>
   </div>
 
   <a href="index.php" class="btn-kembali">Kembali ke Beranda</a>
+
+<?php include 'footer.php'; ?>
+
 </body>
 </html>

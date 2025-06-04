@@ -2,6 +2,7 @@
 require_once '../../config/Connection.php';
 $unggulan = mysqli_query($conn, "SELECT * FROM produk WHERE unggulan = 1 LIMIT 4");
 $terbaru = mysqli_query($conn, "SELECT * FROM produk ORDER BY id_produk DESC LIMIT 4");
+$keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
 ?>
 
 <!DOCTYPE html>
@@ -13,33 +14,46 @@ $terbaru = mysqli_query($conn, "SELECT * FROM produk ORDER BY id_produk DESC LIM
     <title>Amazon.com</title>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="../../assets/css/style.css" />
   </head>
   <body>
     <header>
-      <div class="navbar">
+       <div class="navbar">
         <div class="nav-logo border">
-          <div class="logo"></div>
+          <a href="index.php">
+            <div class="logo"></div>
+          </a>
         </div>
-        <div class="nav-address border">
-          <p class="add-first">Deliver to</p>
-          <div class="address-icon">
-            <i class="fa-solid fa-location-dot"></i>
-            <p class="add-second"><b>Indonesia </b></p>
-          </div>
+        <div class="nav-address">
+        <i class="fa-solid fa-location-dot"></i>
+        <div class="address-text">
+          <span class="add-first">Deliver to</span>
+          <span class="add-second">Indonesia</span>
         </div>
-    
-        <div class="nav-search">
-          <select class="search-select">
-            <option>All</option>
-          </select>
-          <input class="search-input" placeholder="Search Amazon.in" />
-          <div class="search-icon">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div>
-        </div>
+      </div>
+
+     <form action="search.php" method="GET" class="nav-search">
+                <div class="nav-search">
+                    <select class="search-select" name="category" id="categorySelect" onchange="resizeSelect(this)">
+                        <option value="Rumah" <?= "kategori.php?kategori=semua" ? 'selected' : '' ?>>ALL</option>
+                        <option value="Rumah" <?= "kategori.php?kategori=rumah" ? 'selected' : '' ?>>Rumah</option>
+                        <option value="Mainan" <?= "kategori.php?kategori=Mainan" ? 'selected' : '' ?>>Mainan</option>
+                        <option value="Kosmetik" <?= "kategori.php?kategori=Kosmetik" ? 'selected' : '' ?>>Kosmetik</option>
+                        <option value="Tas" <?= "kategori.php?kategori=Tas" ? 'selected' : '' ?>>Tas</option>
+                        <option value="Fashion" <?= "kategori.php?kategori=Fashion" ? 'selected' : '' ?>>Fashion</option>
+                        <option value="Digital" <?= "kategori.php?kategori=Digital" ? 'selected' : '' ?>>Digital</option>
+                        <option value="Elektronik" <?= "kategori.php?kategori=Elektronik" ? 'selected' : '' ?>>Elektronik</option>
+                        <option value="Alat Tulis" <?= "kategori.php?kategori=alat_tulis" ? 'selected' : '' ?>>Alat Tulis</option>
+                    </select>
+                    <input type="text" name="keyword" class="search-input" placeholder="  Search product..." value="<?= htmlspecialchars($keyword) ?>"/>
+                    <button type="submit" class="search-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <span id="widthHelper" style="visibility:hidden; position:absolute; white-space:nowrap; font-size:14px;"></span>
+                </div>
+            </form>
+        
         <div class="map-icon border">
           <i class="fa-solid fa-earth-americas"></i>
           <div>
@@ -84,27 +98,27 @@ $terbaru = mysqli_query($conn, "SELECT * FROM produk ORDER BY id_produk DESC LIM
               <div>
                 <h4>Your Account</h4>
                 <ul>
-                  <li><a href="#">Account</a></li>
-                  <li><a href="../../controllers/pelanggan/logout.php" style="  color: #007185;">Logout</a></li>
-                  <li><a href="#">Orders</a></li>
-                  <li><a href="#">Recommendations</a></li>
-                  <li><a href="#">Browsing History</a></li>
-                  <li><a href="#">Watchlist</a></li>
+                  <li><a href="account.php">Account</a></li>
+                  <li><a href="../../controllers/pelanggan/logout.php" style="  color:rgb(255, 1, 1);">Logout</a></li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
 
+        <a href="returns-orders.php">
         <div class="nav-return border">
           <p><span>Returns</span></p>
           <p class="nav-second">& Orders</p>
         </div>
+        </a>
 
+        <a href="cart.php">
         <div class="nav-cart border">
           <i class="fa-solid fa-cart-shopping"></i>
           Cart
         </div>
+        </a>
       </div>
 
       <div class="panel">
@@ -112,22 +126,105 @@ $terbaru = mysqli_query($conn, "SELECT * FROM produk ORDER BY id_produk DESC LIM
           <i class="fa-solid fa-bars"></i>
           ALL
         </div>
-        <div class="panel-options">
-          <p>Today's Deals</p>
-          <p>Customer Service</p>
-          <p>Registry</p>
-          <p>Gift Cards</p>
-          <p>Sell</p>
+        <div class="panel-options" class="a">
+          <a href="todays-deal.php"><p>Today's Deals</p></a>
+          <a href="customer-service.php"><p>Customer Service</p></a>
+          <a href="registry.php"><p>Registry</p></a>
+          <a href="gift-card.php"><p>Gift Cards</p></a>
         </div>
       </div>
     </header>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+             <?php if (isset($_SESSION['nama'])): ?>
+             Hello, <?= htmlspecialchars($_SESSION['nama']) ?>
+             <?php endif; ?>
+            <button class="sidebar-close" id="sidebarClose">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="sidebar-content">
+            <!-- Digital Content & Devices -->
+            <div class="sidebar-section">
+                <h4>Digital Content & Devices</h4>
+                <ul class="sidebar-menu">
+                    <li class="expandable">
+                        <a href="#">Amazon Music</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Free Streaming</a></li>
+                            <li><a href="#">Prime Music</a></li>
+                            <li><a href="#">Amazon Music Unlimited</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Kindle E-readers & Books</a></li>
+                    <li><a href="#">Amazon Appstore</a></li>
+                </ul>
+            </div>
+
+            <!-- Shop by Department -->
+            <div class="sidebar-section">
+                <h4>Shop by Department</h4>
+                <ul class="sidebar-menu">
+                    <li class="expandable">
+                        <a href="#">Electronics</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Smartphones</a></li>
+                            <li><a href="#">Laptops</a></li>
+                            <li><a href="#">Cameras</a></li>
+                            <li><a href="#">Headphones</a></li>
+                        </ul>
+                    </li>
+                    <li class="expandable">
+                        <a href="#">Computers</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Laptops</a></li>
+                            <li><a href="#">Desktops</a></li>
+                            <li><a href="#">Tablets</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Smart Home</a></li>
+                    <li><a href="#">Arts & Crafts</a></li>
+                    <li><a href="#">Automotive</a></li>
+                    <li><a href="#">Baby</a></li>
+                    <li><a href="#">Beauty and Personal Care</a></li>
+                    <li><a href="#">Books</a></li>
+                    <li><a href="#">Fashion</a></li>
+                </ul>
+            </div>
+
+            <!-- Programs & Features -->
+            <div class="sidebar-section">
+                <h4>Programs & Features</h4>
+                <ul class="sidebar-menu">
+                    <li><a href="#">Gift Cards</a></li>
+                    <li><a href="#">Amazon Live</a></li>
+                    <li><a href="#">International Shopping</a></li>
+                    <li><a href="#">Amazon Second Chance</a></li>
+                </ul>
+            </div>
+
+            <!-- Help & Settings -->
+            <div class="sidebar-section">
+                <h4>Help & Settings</h4>
+                <ul class="sidebar-menu">
+                    <li><a href="#">Your Account</a></li>
+                    <li><a href="#">Customer Service</a></li>
+                    <li><a href="#">Sign in</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
 <div class="container">
         <!-- Hero Banner/Slider -->
         <div class="hero-banner">
             <div class="hero-slider">
                 <div class="slide">
-                <img src="../../assets/images/image.png" alt="Little M Night Light" title="Little M Night Light">
+                <img src="../../assets/images/image-banner.png" alt="Little M Night Light" title="Little M Night Light">
                     <div class="slide-content">
                       
                         <p class="slide-desc">Produk pilihan untuk kebutuhan sehari-hari</p>
@@ -177,12 +274,24 @@ $terbaru = mysqli_query($conn, "SELECT * FROM produk ORDER BY id_produk DESC LIM
 <div class="products">
   <?php while ($row = mysqli_fetch_assoc($unggulan)) : ?>
     <div class="product">
+      <a href="detail-produk.php?id=<?= $row['id_produk'] ?>">
       <div class="product-img">
-        <img src="../../assets/images/<?= !empty($row['gambar']) ? $row['gambar'] : 'default.png' ?>" alt="<?= $row['nama_produk'] ?>">
+        <img src="../../assets/images-produk/<?= !empty($row['gambar']) ? $row['gambar'] : 'default.png' ?>" alt="<?= $row['nama_produk'] ?>">
       </div>
-      <div class="product-info">
-        <div class="product-name"><?= $row['nama_produk'] ?></div>
-        <div class="product-price">Rp <?= number_format($row['harga'], 0, ',', '.') ?></div>
+      </a>
+      <div class="product-info flex-layout">
+        <div class="product-details">
+          <div class="product-name"><?= $row['nama_produk'] ?></div>
+          <div class="product-price">Rp <?= number_format($row['harga'], 0, ',', '.') ?></div>
+        </div>
+        <div class="product-actions inline">
+          <form method="POST" action="../../controllers/pelanggan/add-to-cart.php" style="display: inline;">
+              <input type="hidden" name="id_produk" value="<?= $row['id_produk'] ?>">
+              <input type="hidden" name="quantity" value="1">
+              <button type="submit" class="btn-buy pre-order">+ Keranjang</button>
+            </form>
+          <button class="btn-buy buy-now">Beli</button>
+        </div>
       </div>
     </div>
   <?php endwhile; ?>
@@ -204,13 +313,21 @@ $terbaru = mysqli_query($conn, "SELECT * FROM produk ORDER BY id_produk DESC LIM
         <div class="products">
         <?php while ($row = mysqli_fetch_assoc($terbaru)) : ?>
             <div class="product">
-            <div class="product-img">
-                <img src="../../assets/images/<?= !empty($row['gambar']) ? $row['gambar'] : 'default.png' ?>" alt="<?= $row['nama_produk'] ?>">
-            </div>
-            <div class="product-info">
-                <div class="product-name"><?= $row['nama_produk'] ?></div>
-                <div class="product-price">Rp <?= number_format($row['harga'], 0, ',', '.') ?></div>
-            </div>
+              <a href="detail-produk.php?id=<?= $row['id_produk'] ?>">
+              <div class="product-img">
+                <img src="../../assets/images-produk/<?= !empty($row['gambar']) ? $row['gambar'] : 'default.png' ?>" alt="<?= $row['nama_produk'] ?>">
+              </div>
+              </a>
+                <div class="product-info flex-layout">
+                  <div class="product-details">
+                    <div class="product-name"><?= $row['nama_produk'] ?></div>
+                    <div class="product-price">Rp <?= number_format($row['harga'], 0, ',', '.') ?></div>
+                  </div>
+                  <div class="product-actions inline">
+                    <button class="btn-buy pre-order">+ Keranjang</button>
+                    <button class="btn-buy buy-now">Beli</button>
+                  </div>
+                </div>
             </div>
         <?php endwhile; ?>
         </div>
@@ -341,5 +458,96 @@ $terbaru = mysqli_query($conn, "SELECT * FROM produk ORDER BY id_produk DESC LIM
             </div>
         </div>
     </footer>
+
+      <script>
+      function resizeSelect(select) {
+        const helper = document.getElementById('widthHelper');
+        helper.textContent = select.options[select.selectedIndex].text;
+        const computed = getComputedStyle(select);
+        helper.style.font = computed.font;
+        select.style.width = helper.offsetWidth + 48 + 'px'; // +30 for arrow padding
+      }
+
+      // Jalankan sekali saat halaman load
+      document.addEventListener("DOMContentLoaded", function() {
+        const select = document.getElementById("categorySelect");
+        resizeSelect(select);
+
+        if (select.offsetWidth < 60) {
+            select.style.width = '56px';
+          }
+      });
+      </script>
+
+      <script>
+// JavaScript untuk fitur sidebar ALL menu
+document.addEventListener("DOMContentLoaded", function() {
+    // Get elements
+    const panelAll = document.querySelector('.panel-all');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const sidebarClose = document.getElementById('sidebarClose');
+
+    // Function to open sidebar
+    function openSidebar() {
+        sidebar.classList.add('active');
+        sidebarOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Function to close sidebar
+    function closeSidebar() {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Event listeners
+    if (panelAll) {
+        panelAll.addEventListener('click', function(e) {
+            e.preventDefault();
+            openSidebar();
+        });
+    }
+
+    if (sidebarClose) {
+        sidebarClose.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeSidebar();
+        });
+    }
+
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', function(e) {
+            if (e.target === sidebarOverlay) {
+                closeSidebar();
+            }
+        });
+    }
+
+    // Handle expandable menu items
+    const expandableItems = document.querySelectorAll('.sidebar .expandable > a');
+    expandableItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const parent = this.parentElement;
+            const subMenu = parent.querySelector('.sub-menu');
+            
+            if (subMenu) {
+                parent.classList.toggle('expanded');
+                subMenu.classList.toggle('expanded');
+            }
+        });
+    });
+
+    // Close with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+            closeSidebar();
+        }
+    });
+});
+</script>
+
   </body>
 </html>

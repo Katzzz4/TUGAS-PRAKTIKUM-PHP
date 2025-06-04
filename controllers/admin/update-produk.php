@@ -13,7 +13,7 @@ $unggulan = isset($_POST['unggulan']) ? 1 : 0;
 if (!empty($_FILES['gambar']['name'])) {
     $gambar = $_FILES['gambar']['name'];
     $tmp = $_FILES['gambar']['tmp_name'];
-    $folder = '../../assets/images/';
+    $folder = '../../assets/images-produk/';
     $path = $folder . basename($gambar);
 
     if (move_uploaded_file($tmp, $path)) {

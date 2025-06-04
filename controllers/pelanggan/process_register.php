@@ -21,7 +21,7 @@ if (mysqli_num_rows($cek) > 0) {
 
 // Hash dan simpan
 $hash = password_hash($password, PASSWORD_BCRYPT);
-$query = "INSERT INTO auth (id_pengguna, email, password, nama) VALUES (NULL, '$email', '$hash', '$nama')";
+$query = "INSERT INTO auth (id_pengguna, email, password, nama, created_at) VALUES (NULL, '$email', '$hash', '$nama', NOW())";
 mysqli_query($conn, $query) or die("Query error: " . mysqli_error($conn));
 
 echo "<script>alert('Berhasil mendaftar! Silakan login.'); window.location='../../view/pelanggan/login.php';</script>";
