@@ -195,36 +195,51 @@ $keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
         <!-- Categories -->
         <div class="categories">
             <div class="category">
-                <div class="category-icon">🏠</div>
-                <a href="kategori.php?kategori=rumah" class= "category-name" >Rumah</a>
+              <a href="kategori.php?kategori=rumah" class= "category-name" >
+                <div class="category-icon"><i class="fas fa-couch"></i></div>
+                <p class="category-name">Rumah</p>
+                </a>
             </div>
             <div class="category">
-                <div class="category-icon">🧸</div>
-               <a href="kategori.php?kategori=mainan" class= "category-name" >Mainan</a>
+              <a href="kategori.php?kategori=mainan" class= "category-name" >
+                <div class="category-icon"><i class="fas fa-puzzle-piece"></i> </div>
+                <p class="category-name">Mainan</p>
+               </a>
             </div>
             <div class="category">
-                <div class="category-icon">💄</div>
-               <a href="kategori.php?kategori=kosmetik" class= "category-name" >Kosmetik</a>
+               <a href="kategori.php?kategori=kosmetik">
+                <div class="category-icon"><i class="fas fa-paint-brush"></i></div>
+                <p  class= "category-name">Kosmetik</p>
+               </a>
             </div>
             <div class="category">
-                <div class="category-icon">🎒</div>
+              <a href="kategori.php?kategori=tas" class= "category-name" >
+                <div class="category-icon"><i class="fas fa-shopping-bag"></i></div>
                 <a href="kategori.php?kategori=tas" class= "category-name" >Tas</a>
             </div>
             <div class="category">
-                <div class="category-icon">🧦</div>
-                <a href="kategori.php?kategori=fashion" class= "category-name" >Fashion</a>
+              <a href="kategori.php?kategori=tas" class= "category-name" >
+                <div class="category-icon"><i class="fas fa-tshirt"></i></div>
+                <p class="category-name">Fashion</p>  
+              </a>
             </div>
             <div class="category">
-                <div class="category-icon">🎮</div>
-                <a href="kategori.php?kategori=digital" class= "category-name" >Digital</a>
+              <a href="kategori.php?kategori=digital" class= "category-name" >
+                <div class="category-icon"><i class="fas fa-tablet-alt"></i></div>
+                <p class="category-name">Digital</p>
+              </a>
             </div>
             <div class="category">
-                <div class="category-icon">🔌</div>
-                <a href="kategori.php?kategori=elektronik" class= "category-name" >Elektronik</a>
+              <a href="kategori.php?kategori=elektronik" class= "category-name" >
+                <div class="category-icon"><i class="fas fa-tv"></i></div>
+                <p>Elektronik</p>
+              </a>
             </div>
             <div class="category">
-                <div class="category-icon">✏️</div>
-                <a href="kategori.php?kategori=alat_tulis" class= "category-name" >Alat Tulis</a>
+              <a href="kategori.php?kategori=alat_tulis" class= "category-name" >
+                <div class="category-icon"><i class="fas fa-pen"></i></div>
+                <p>Alat Tulis</p>
+              </a>
             </div>
         </div>
 
